@@ -4,17 +4,18 @@
 /***ATMTA STATION 13 ERP CODE TRANSLATION**/
 
 /****PORT VARIABLE AND FUNCTION NOTES||||PLEASE READ|||**/
+//penis synonyms: 'cock', 'shaft', 'member', 'rod', 'dick'
+//sorry if they sound corny
 //var/staminaloss is in living_defines.dm
 //var/HEADCOVERSMOUTH is defined in _defines/mobs.dm or flags.dm
 //proc/to_chat() is defined in _macros.dm
-//var/underwear is in /carbon/human/human_defines.dm
-//var/genitals is defined in species.dm
-//var/obj/effect/decal/cleanable/cum is defined in code/game/objects/effects/decals/Cleanable/human.dm or \game\objects\effects\decals\Cleanable\misc.dm
+//var/underwear and var/undershirt is defined in /carbon/human/human_defines.dm
+//var/genitals and var/anus is defined in species.dm
+//var/obj/effect/decal/cleanable/cum is defined in \game\objects\effects\decals\Cleanable\misc.dm, make sure to use the obj\effects\decals\Cleanable\cum.dmi
 //var/anus is defined in species.dm
 //human/proc/get_age_pitch() is defined in human.dm
 //flags.dm is ported to mobs.dm, but should I place them in flags.dm?
-//EDIT humans.dm to include this code. If you already have a newer version, then there's no need to.
-
+//EDIT humans.dm to include new options for more interactions
 //H = User
 //P = Partner
 /**END OF PORT NOTES**/
@@ -25,13 +26,14 @@
 UNFINISHED:
 --Make code more modular.
 --blowjob incomplete for vox and slime
---
+--vaginal incomplete
 --Replace 'their' with [H. gender = MALE? "his": "her"] if possible.
 --Check for grammar, spelling errors after translation is finished
 --Machine translations unsurprisingly sound pecular and awkward. So fix them
 --Not coded for all species (akula, promethean, teshari, lamia)
 FIXED:
 --Translated and decoded human.dm dialogue into english
+--oral, dildo, and anal code finished
 --Cum spawns, just toggle misc.dm from honk/code/game/objects/effects/decals/Cleanable/misc.dm. What you can alternatively do is copy and paste it into code/game/objects/effects/decals/Cleanable/misc.dm
 --Windows initializes and functions work. Due to it being placed in human.dm
 --Buttons should be readjusted to simple words
@@ -262,7 +264,7 @@ mob/living/carbon/human/proc/cum(mob/living/carbon/human/H as mob, mob/living/ca
 		H.resistenza += 50
 
 	else
-		message = pick("ejaculates in a fit of orgasm", "closes his eyes and shivers" , "tenses up, and then suddenly relaxes as hot milk pours out," , "freezes, rolling his eyes")
+		message = pick("ejaculates in a fit of orgasm", "closes eyes and shivers" , "tenses up, and then suddenly relaxes as hot milk pours out," , "freezes, rolling his eyes")
 		H.visible_message("<B> [H] [message]. </B>")
 		if(istype(P.loc, /obj/structure/closet))
 			P.visible_message("<B>[H][message].</B>")
@@ -321,7 +323,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 		if("fingering")
 
-			message = pick("immediately shoves two fingers in the pussy of [P].", "slowly makes into [P]'s pussy by tweaking clit with two fingers.")
+			message = pick("shoves fingers in the pussy of [P].", "tweaks [P]'s clit with two fingers.","rubs [P]'s labia.")
 			if(prob(35))
 				switch(P.species.name)
 					if("Human", "Slime People")
@@ -349,7 +351,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 					P.moan()
 			playsound(loc, "honk/sound/interactions/champ_fingering.ogg", 50, 1, -1)
 			H.do_fucking_animation(P)
-
+//blowjob is unfinished so far
 		if("blowjob")
 
 			switch(H.species.name)
@@ -384,9 +386,9 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 						add_logs(P, H, "sucked")
 
 				if("Vox", "Vox Armalis")
-					message = pick("licks [P]'s member.", "stimulates the body [P] [ya] the tongue." , "rubs member [P] on a [ya] tongue." , "pushing member [P] himself in the throat , old [ya] camping not catch his beak. "," encourages member [P] [ya] the tongue. ")
+					message = pick("licks [P]'s member.", "stimulates [P]'s." , "nuzzles [P]'s head." , "encircles tongue around [P]'s shaft. "," goes deeper into [P] with beak open. ")
 					if(prob(35))
-						message = pick("licks body [P], covering his eyes with pleasure.", "yells, his eyes closed, without taking the [ya] member [P] of the beak." , "caresses member [P] [ya] a tongue, holding the [ya] his wing. "," licks member [P] throughout. "," immerses member [P] deeper his beak. "," tip of the [ya] tongue licking penis [P]. "," spits on a member of the tip of the [P] and pushes it into my throat. "," licking a lollipop [P]. "," moving her head back and forth, stimulating the [ya] member [P]. "," thoroughly licks dick [P]. "," eyes closed, completely swallows baby [P]. "," caresses member [P] [ya] the tongue. ")
+						message = pick("licks body of [P], covering their eyes with pleasure.", "gulps, his eyes closed and beak open, going further into [P]'s shaft." , "caresses [P]'s cock with their a tongue, while rubbing their with their wing. "," licks member of [P] throughout. "," immerses cock of [P] deeper their throat. "," licks [P]'s head with the tip of their tongue. "," spits on the tip of the [P]'s head to lubricate and goes further into throat. "," licks [P]'s cock like a lollipop. "," moves their head back and forth, stimulating [P]'s shaft. "," thoroughly licks the dick of [P]. "," eyes closed, completely swallows [P]'s cock. "," caresses [P]'s balls with their tongue. ")
 					if(H.lastfucked!= P || H.lfhole!= hole)
 						message = pick("wraps their tongue around [P]'s member." , "starts sucking [P]'s shaft.")
 						H.lastfucked = P
@@ -394,9 +396,9 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 						add_logs(P, H, "sucked")
 
 				if("Slime People")
-					message = pick("sucks [P].", "sucks dick [P].", "encourages member [P] [ya] the tongue.")
+					message = pick("sucks [P].", "sucks dick [P].", "lick member of [P] with tongue.")
 					if(prob(35))
-						message = pick("juicy kisses authority [P], covering his eyes with pleasure [ya].", "yells, his eyes closed, without taking the [ya] member [P] mouth." , "caresses member [P] [ya ] a tongue, covering the [ya] it in the [ya], viscous mucus. "," licks member [P] over the entire length, leaving the [ya] [ya] trail of slime. "," immerses member [P] deeper his mouth. "," tip of the [ya] tongue licking penis [P]. "," wets member of the tip [P] sticky mucus and then takes it in her mouth. "," sucks a lollipop [P]. "," moving her head back -vper?d, stimulating [ya] member [P]. "," thoroughly licks member [P]. "," eyes closed, completely swallows baby [P]. "," caresses member [P], succor [ya] himself with his hands. ")
+						message = pick("juicily kisses [P]'s shaft, covering their eyes with pleasure.", "gulps with their eyes closed, taking the member of [P] into their mouth." , "caresses member of [P] with their tongue, viscous mucus drips from the tip. "," licks member of [P] over the entire cock length, leaving a trail of slime behind. "," immerses member of [P] deeper into their mouth. "," licks the cock of [P] with tip of their tongue. "," wets [P]'s head with sticky mucus and then takes it into their throat. "," sucks [P]'s cock like a lollipop. "," moving their head back, stimulating [P]'s shaft. "," thoroughly licks member of [P]. "," shuts eyes, completely swallowing [P]'s shaft. "," caresses member of [P], sucking it with their hands. ")
 					if(H.lastfucked!= P || H.lfhole!= hole)
 						message = pick(" wraps member of [P] with their lips, enveloping it in slime." , "starts sucking [P]'s dick.")
 						H.lastfucked = P
@@ -431,20 +433,20 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 					P.visible_message("<B> [H] </B> [pick(" chokes on the cock of [P] </B> "," nearly suffoctes from the stream of semen in their throat "," coughs out a puddle of cum ")].")
 
 		if("vaginal")
-
+//general fucking messages
 			message = pick("fucks [P].", "pounds [P].", "hammers [P].")
 			if(prob(35))
-				switch(P.species.name)
+				switch(P.species.name)//special lines of fucking (aka "critical hits"!)
 					if("Human")
-						message = pick("roughly fucks [P].", "passionately pounds in love with [P]'s lower lips.", "pounds [P] with cock.", "pumps member inside of [P].","thrusts pelvis into [P]'s pussy. "," moans, pumping cock [P] further. "," deeply fucks [P]. "," skewers [P] with their shaft. "," sensually fucks [P]. ")
+						message = pick("roughly fucks [P].", "passionately pounds in love in [P]'s lower lips.", "pounds [P] with cock.", "pumps member inside of [P].","thrusts pelvis into [P]'s pussy. "," moans, pumping cock [P] further. "," deeply fucks [P]. "," skewers [P] with their shaft. "," sensually fucks [P]. ")
 					if("Tajaran", "Vulpkanin")
-						message = pick("roughly fucks the pussy of [P].", "[ya] passionately in love with [P].", "sudden movement is submerged [ya] into [P].", "moved [ya] inside the [P] . "," moves Pelvis, planting [ya] term in [P]. "," moans, leaning [ya] Referring to [P]. "," strongly pressed [ya] groin to the [P]. "," skewer [P] on your dick. "," sensual is [P]. ")
+						message = pick("roughly fucks the pussy of [P].", "is passionately in love with [P].", "suddenly thrusts into [P].", "enlarges [P]'s lips. "," hits [P] in the cervix using their shaft. "," moans, thrusting hips into [P]. "," shoves their cock into [P]'s pussy. "," skewer [P] with their cock dick. "," sensually fucks [P]. ")
 					if("Slime People")
-						message = pick("roughly fucks [P].", "passionately in love with [P].", "sudden movement is submerged [ya] into [P].", "moved [ya] inside the [P] . "," moves Pelvis, planting [ya] term in [P]. "," moans, leaning [ya] Referring to [P]. "," strongly pressed [ya] groin to the [P]. "," skewer [P] on your dick. "," sensual is [P]. ")
+						message = pick("roughly fucks [P].", "passionately in love with [P].", "suddenly thrusts into [P].", "enlargens [P]'s lips. "," hits [P] in the cervix using their shaft. "," moans, thrusting hips into [P]. "," strongly pressed their cock [P]'s pussy. "," skewer [P] with their cock dick. "," sensually fucks [P]. ")
 						playsound(loc, "honk/sound/interactions/champ [rand(1, 2)]. ogg", 50, 1, -1)
-
+//first time
 			if(H.lastfucked!= P || H.lfhole!= hole)
-				message = pick("thrusts his penis at the most [ya] eggs in [P].", "shoves his member into [P]'s pussy.", "shafts his way into [P]'s pussy.", "mercilessly tears his rod into [P]'s pussy. ")
+				message = pick("thrusts their cock into [P].", "shoves his member into [P]'s pussy.", "shafts his way into [P]'s pussy.", "mercilessly tears his rod into [P]'s pussy. ")
 				H.lastfucked = P
 				H.lfhole = hole
 				add_logs(P, H, "fucked")
@@ -474,7 +476,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 		if("anal")
 
-			message = pick("hammers [P]'s in the ass with his cock." , "pounds [P]'s asshole.", "fucks [P] in the ass.")
+			message = pick("hammers [P]'s in the ass with their cock." , "pounds [P]'s asshole.", "fucks [P] in the ass.")
 			if(prob(35))
 				switch(P.species.name)
 					if("Human", "Nucleation")
@@ -524,17 +526,17 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 			message = pick("fucks [P] by shoving their shaft down [P.gender == FEMALE?" her ":" his "] throat." , "fucks [P] orally.")
 			if(prob(35))
-				switch(P.species.name)
+				switch(P.species.name) //these lines are all different. I just replaced them since their lines had minor variatons, will change later
 					if("Human", "Skrell", "Grey", "Plasmaman")
-						message = pick("supported [ya] on the shoulders of [P], adhering to the [ya] [P.gender == FEMALE?" her ":" him "] and planting [ya] member stronger and stronger [P.gender == FEMALE ? "s": ". it"] throat "," fuck [P] in the mouth "," skewer head [P] on his penis "," holding [P] for the head of the two [ya] hands.. and performs motion [ya] basin. "," gives a slap [P], continuing [ya] to fuck the victim in the mouth. "," bezzhastno polzuets [ya] throat [P]. ",", growling through clenched teeth, nat [ya ] draws Pharynx [P] on the kid. ")
+						message = pick("grabs [P]'s head and forces [P.gender == FEMALE?" her ":" him "] to suck their cock. [P] is mericilessly forced to take their member."," fucks [P] in the orally "," shoves [P] on their cock "," holds the head of [P] with two hands and forces their head down their cock. "," slaps [P], continuing to force the victim to suck their shaft. ",", growling through clenched teeth, [P] begrudgingly sucks cock from them")
 					if("Unathi")
-						message = pick("supported [ya] on the shoulders of [P], adhering to the [ya] [P.gender == FEMALE?" her ":" him "] and planting [ya] member stronger and stronger [P.gender == FEMALE ? "s": ". it"] throat "," fuck [P] into the toothy maw "," skewer head [P] on his penis "," holding [P] for the head of the two [ya].. hands and makes movement [ya] basin "," gives a slap [P], continuing [ya] to fuck [P.gender == FEMALE ? "poor [ya] scherku": "poor [ya] schera."] into the mouth. "," bezzhastno polzuets [ya] throat [P]. "," growling through clenched teeth, nat [ya] draws Pharynx [P] on the kid. ")
+						message = pick("grabs [P]'s head and forces [P.gender == FEMALE?" her ":" him "] to suck their cock. [P] is mericilessly forced to take their member."," fucks [P] in the orally "," shoves [P] on their cock "," holds the head of [P] with two hands and forces their head down their cock. "," slaps [P], continuing to force the victim to suck their shaft. ",", growling through clenched teeth, [P] begrudgingly sucks cock from them")
 					if("Tajaran", "Vulpkanin")
-						message = pick("supported [ya] on the shoulders of [P], adhering to the [ya] [P.gender == FEMALE?" her ":" him "] and planting [ya] member stronger and stronger [P.gender == FEMALE ? "s": ". it"] throat "," fuck [P] into the toothy maw "," skewer head [P] on his penis "," holding [P] for the head of the two [ya].. hands and makes movement [ya] basin "," gives a slap [P], continuing [ya] to fuck [P.gender == FEMALE ? "poor cat": "Poor kitten."] into the mouth, "," bezzhastno polzuets [ya] throat [P]. ",", growling through clenched teeth, nat [ya] draws Pharynx [P] on the kid. ")
+						message = pick("grabs [P]'s head and forces [P.gender == FEMALE?" her ":" him "] to suck their cock. [P] is mericilessly forced to take their member."," fucks [P] in the orally "," shoves [P] on their cock "," holds the head of [P] with two hands and forces their head down their cock. "," slaps [P], continuing to force the victim to suck their shaft. ",", growling through clenched teeth, [P] begrudgingly sucks cock from them")
 					if("Vox", "Vox Armalis")
-						message = pick("supported [ya] on the shoulders of [P], adhering to the [ya] [P.gender == FEMALE?" her ":" him "] and planting [ya] member stronger and stronger [P.gender == FEMALE ? "s": ". it"] throat "," fuck [P] pr [ya] Mo beak "," skewer head [P] on his cock, old [ya] is not smiling porezats [ya. ] on the tabs on the beak. "," holding [P] for the head of the two [ya] hands and makes movement [ya] basin. "," squeezes per [ya] color [P], continuing [ya] to fuck Poor bird in mouth. "," bezzhastno polzuets [ya] throat [P]. "," growling through clenched teeth, nat [ya] draws Pharynx [P] on the kid. ")
+						message = pick("grabs [P]'s head and forces [P.gender == FEMALE?" her ":" him "] to suck their cock. [P] is mericilessly forced to take their member."," fucks [P] in the orally "," shoves [P] on their cock "," holds the head of [P] with two hands and forces their head down their cock. "," slaps [P], continuing to force the victim to suck their shaft. ",", growling through clenched teeth, [P] begrudgingly sucks cock from them")
 					if("Slime People")
-						message = pick("supported [ya] on the shoulders of jelly [P], adhering to the [ya] [P.gender == FEMALE?" her ":" him "] and planting [ya] member stronger and stronger [P.gender == FEMALE ? "s": ". it"] throat "," fuck [P] in the mouth, hall [ya] exhaustively [ya] his penis in a sticky mucus "," skewer head [P] on his penis. . "," holding [P] for the head of the two [ya] hands and makes movement [ya] basin "," continues to fuck [P.gender == FEMALE ? "poor sliznedevku": "poor slug [ya]"]. in mouth. "," bezzhastno polzuets [ya] mouth [P]. "," excessively carried away, pokes past the mouth member [P] and tremble from sudden sensations. "," mercilessly rapes throat [P]. ")
+						message = pick("grabs [P]'s head and forces [P.gender == FEMALE?" her ":" him "] to suck their cock. [P] is mericilessly forced to take their member."," fucks [P] in the orally "," shoves [P] on their cock "," holds the head of [P] with two hands and forces their head down their cock. "," slaps [P], continuing to force the victim to suck their shaft. ",", growling through clenched teeth, [P] begrudgingly sucks cock from them")
 
 			if(H.lastfucked!= P || H.lfhole!= hole)
 				message = pick("unceremoniously pushes his dick in [P]'s throat.")
@@ -567,7 +569,7 @@ mob/living/carbon/human/proc/fuck(mob/living/carbon/human/H as mob, mob/living/c
 
 		if("mount")
 
-			message = pick("preps to ride on the shaft of [P]. Later plunging down on cock.", "hops on the member of [P] and thrusts hips down", "hops on [P]'s cock")
+			message = pick("rides on the shaft of [P]", "thusts hips down on [P]'s", "hops on [P]'s cock", "rides [P]'s dick")
 			if(prob(35))
 				message = pick("saddles on [P], like a cowboy in the wild west!", "hops on [P]", "jumping on the cock of [P], strike [ya] [ya] camping on his smooth skin," , "joyfully bounces, delivered [ya] [ya] enjoy themselves and [P] "," put her pelvis in the [P] and crawl like fidget, "," doing somersaults on the genitals [P] "," skipping navalivaets [ya] to [P], taken [ya] in inside his penis, "," sprinkles their fold on the hook [P], giving [ya] it his pelvis "," admits Seb inside [ya] animal [P] ")
 
@@ -716,7 +718,7 @@ mob/living/carbon/human/proc/handle_lust()
 /obj/item/weapon/dildo
 	name = "dildo"
 	desc = "Hm-m-m, deal thow"
-	icon = 'honk/icons/obj/items/dildo.dmi'
+	icon = 'icons/obj/items/dildo.dmi'
 	icon_state = "dildo"
 	item_state = "c_tube"
 	throwforce = 0
@@ -759,9 +761,9 @@ mob/living/carbon/human/proc/handle_lust()
 
 	else if(hole == "anus" && hasanus)
 		if(user == M)
-			message = pick("satisfy [ya] is SEB [ya] anally using [rus_name]," , "pushes [rus_name] his anus", "clean your chimney using the [ya] [rus_name]")
+			message = pick("satisfies themselves anally using a [rus_name]," , "pushes [rus_name] their anus", "clean the chimney using the [rus_name]")
 		else
-			message = pick("satisfy [ya] is [M] anally using [rus_name]", "pushes [rus_name] [M] in the ass", "clean the chimney [M], using the [ya] [rus_name]")
+			message = pick("satisfies [M] anally using a [rus_name]", "pushes [rus_name] in the ass of [M]", "clean the [M]'s chimney, using the [rus_name]")
 
 		if(prob(5) && M.stat!= DEAD && M.stat!= UNCONSCIOUS)
 			user.visible_message("<font color = purple> <B> [user] [message]. </B> </font>")

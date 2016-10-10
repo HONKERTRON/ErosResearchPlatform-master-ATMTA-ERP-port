@@ -18,7 +18,7 @@
 //ported from paradise
 	var/underwear = "Nude"	//Which underwear the player wants
 	var/undershirt = "Nude"	//Which undershirt the player wants
-
+//
 	//Skin colour
 	var/r_skin = 255
 	var/g_skin = 220
