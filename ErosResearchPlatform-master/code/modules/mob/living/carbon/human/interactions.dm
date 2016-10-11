@@ -718,7 +718,7 @@ mob/living/carbon/human/proc/handle_lust()
 /obj/item/weapon/dildo
 	name = "dildo"
 	desc = "Hm-m-m, deal thow"
-	icon = 'icons/obj/items/dildo.dmi'
+	icon = 'honk/icons/obj/items/dildo.dmi'
 	icon_state = "dildo"
 	item_state = "c_tube"
 	throwforce = 0
